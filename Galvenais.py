@@ -1,6 +1,7 @@
 import openpyxl
 import math
 from funkcijas import *
+import numpy as np
 
 with open("data.csv", "r" , encoding="utf8") as f:
     next(f)
@@ -30,9 +31,9 @@ for elem in exdate:
 
 
 
-wb = openpyxl.Workbook()
-ws=wb.active
-VidSlid(ws,date,data,3,1)
+#wb = openpyxl.Workbook()
+#ws=wb.active
+#VidSlid(ws,date,data,3,1)
 
 #wb.save("Test.xlsx")
-wb.close()
+#wb.close()
