@@ -1,5 +1,6 @@
 import openpyxl
 import math
+from funkcijas import *
 
 with open("data.csv", "r" , encoding="utf8") as f:
     next(f)
@@ -27,11 +28,11 @@ for elem in exdate:
     a = elem.replace('"','')
     date.append(a)
 
+
+
 wb = openpyxl.Workbook()
 ws=wb.active
-ws['A1'] = 56
-ws['B2'] = 44
-sum = ws['B2'].value + ws['A1'].value
-print(sum)
+VidSlid(ws,date,data,3,1)
 
+#wb.save("Test.xlsx")
 wb.close()

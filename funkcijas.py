@@ -39,15 +39,34 @@ def Xlsx_Letter(number):
     if number == 0:
         number = 26
     a = a + letter[number]
-    return(a)
+    return a
 
-#print(Xlsx_Letter(1352))
-wb = openpyxl.Workbook()
-ws=wb.active
 
-for i in range (1,10000):
-    index = Xlsx_Letter(i)
-    ws[index + '1'] = index
+def DataDisplay(workbook,date,data,x,y):
+    a = 0
+    for elem in date:
+        workbook[Xlsx_Letter(x) + str(y + a)] = elem
+        a = a + 1
+    a = 0
+    for elem in data:
+        workbook[Xlsx_Letter(x + 1) + str(y + a)] = elem
+        a = a + 1
+    return workbook
 
-#wb.save("Test.xlsx")
-wb.close()
+
+def SlidPapild(workbook,x,y,number):
+    sum = 0
+    for i in range(1,number+1):
+        sum = sum + float(workbook[Xlsx_Letter(x) + str(y + i - 1)].value)
+    a = sum/number
+    return a
+
+
+def VidSlid(workbook,date,data,x,y):
+    DataDisplay(workbook,date,data,x-2,y)
+    slid_skaits = len(data)/2
+    slid_skaits = math.floor(slid_skaits)
+    for j in range (1, slid_skaits+ 1):
+        for i in range (1, len(data) - j + 2):
+            workbook[Xlsx_Letter(x + j - 1) + str(y + i + j - 1)] = SlidPapild(workbook,x-1,y+i-1,j)
+    return workbook
