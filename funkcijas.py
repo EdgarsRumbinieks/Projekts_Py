@@ -69,6 +69,7 @@ def VidSlid(workbook,date,data,x,y):
     slid_skaits = len(data)/2
     slid_skaits = math.floor(slid_skaits)
     for j in range (1, slid_skaits+ 1):
+        workbook[Xlsx_Letter(x+j-1) + str(y-1)] = "s = " + str(j)
         for i in range (1, len(data) - j + 2):
             workbook[Xlsx_Letter(x + j - 1) + str(y + i + j - 1)] = SlidPapild(workbook,x-1,y+i-1,j)
     return workbook
@@ -157,13 +158,23 @@ def SezonMet(workbook,date,data,number,first_sezon,x,y):
     return workbook
 
 
-
-
-wb = openpyxl.Workbook()
-ws=wb.active
-date = [1,2,22,31,23,12,3,123,1,23,2]
-data = [14672.7, 19109.2, 21328.5, 18644.3, 14368.0, 19676.6, 19674.0, 21986.7, 16754.7, 20894.9, 24650.0, 19302.5, 18189.1, 19610.1, 23948.8, 19199.8, 16038.9, 18053.3]
-SezonMet(ws,date,data,4,1,3,2)
-
-#wb.save("Test.xlsx")
-wb.close()
+def KvadKlud(workbook,date,data,x_sak,y_sak,x_beig,y_beig):
+    DataDisplay(workbook,date,data,x_beig+3,y_sak)
+    for i in range(1,x_beig-x_sak+1):
+        workbook[Xlsx_Letter(x_beig+4+i) + str(y_sak-1)] = "Q" + str(workbook[Xlsx_Letter(x_sak+i-1) + str(y_sak-1)].value)
+    for i in range(1,x_beig-x_sak+1):
+        for j in range(1,y_beig-y_sak+1):
+            if workbook[Xlsx_Letter(x_sak+i-1) + str(y_sak+j-1)].value != None:
+                workbook[Xlsx_Letter(x_beig+4+i) + str(y_sak+j-1)] = pow((float(workbook[Xlsx_Letter(x_sak+i-1) + str(y_sak+j-1)].value)-float(workbook[Xlsx_Letter(x_sak-1) + str(y_sak+j-1)].value)),2)
+    workbook[Xlsx_Letter(x_beig+3) + str(y_beig+1)] = "AVERENGE"
+    sum = 0
+    a = 0
+    for i in range(1,x_beig-x_sak+1):
+        for j in range(1,y_beig-y_sak+1):
+            if workbook[Xlsx_Letter(x_beig+4+i) + str(y_sak+j-1)].value != None:
+                sum = sum + float(workbook[Xlsx_Letter(x_beig+4+i) + str(y_sak+j-1)].value)
+                a = a+1
+        workbook[Xlsx_Letter(x_beig+4+i) + str(y_beig+1)]= sum/a
+        sum = 0
+        a = 0
+    return workbook
