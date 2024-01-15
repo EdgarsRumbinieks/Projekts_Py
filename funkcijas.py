@@ -68,11 +68,14 @@ def VidSlid(workbook,date,data,x,y):
     DataDisplay(workbook,date,data,x-2,y)
     slid_skaits = len(data)/2
     slid_skaits = math.floor(slid_skaits)
+    slid_data = []
     for j in range (1, slid_skaits+ 1):
         workbook[Xlsx_Letter(x+j-1) + str(y-1)] = "s = " + str(j)
         for i in range (1, len(data) - j + 2):
             workbook[Xlsx_Letter(x + j - 1) + str(y + i + j - 1)] = SlidPapild(workbook,x-1,y+i-1,j)
-    return workbook
+            if i == len(data) - j + 1:
+                slid_data.append(SlidPapild(workbook,x-1,y+i-1,j))
+    return workbook, slid_data
 
 
 def TendencesMetode(workbook,date,data,x,y):
@@ -90,6 +93,7 @@ def TendencesMetode(workbook,date,data,x,y):
     yAss = np.array(floatdata)
     x_ass.append(i+1)
     sum = 0
+    trend_data = []
     for i in range (1,10):
         workbook[Xlsx_Letter(x+i) + str(y-1)] = "poly(" + str(i) + ")"
         z = np.polyfit(xAss, yAss, i)
@@ -97,21 +101,27 @@ def TendencesMetode(workbook,date,data,x,y):
             for j in range(0,i+1):
                 sum = sum + z[j]*pow(elem,i-j)
             workbook[Xlsx_Letter(x+i) + str(y+elem-1)] = sum
+            if elem == x_ass[-1]:
+                trend_data.append(sum)
             sum = 0
         z = np.polyfit(np.log(xAss), yAss, 1)
         workbook[Xlsx_Letter(x+i+1) + str(y-1)] = "log"
         for elem in x_ass:
             workbook[Xlsx_Letter(x+i+1) + str(y+elem-1)] = z[0]*np.log(elem) + z[1]
-    return workbook
+    trend_data.append(z[0]*np.log(x_ass[-1]) + z[1])
+    return workbook, trend_data
 
 
 def EksponNoglud(workbook,date,data,x,y):
     DataDisplay(workbook,date,data,x-2,y)
+    ekspon_data = []
     for i in range(1,len(data)):
         for j in range(1,10):
             workbook[Xlsx_Letter(x+j-1) + str(y-1)] = str(j/10)
             workbook[Xlsx_Letter(x+j-1) + str(y+i+1)] = float(workbook[Xlsx_Letter(x-1) + str(y+i)].value)*(j/10)+(1-j/10)*float(workbook[Xlsx_Letter(x-1) + str(y+i-1)].value)
-    return workbook
+            if i == len(data)-1:
+                ekspon_data.append(float(workbook[Xlsx_Letter(x+j-1) + str(y+i+1)].value))
+    return workbook, ekspon_data
 
 
 def SezonMet(workbook,date,data,number,first_sezon,x,y):
@@ -155,26 +165,54 @@ def SezonMet(workbook,date,data,number,first_sezon,x,y):
     workbook[Xlsx_Letter(x+4) + str(y-1)] = "y~"
     for i in range(1,len(data)+2):
         workbook[Xlsx_Letter(x+4) + str(y+i-1)] = float(workbook[Xlsx_Letter(x) + str(y+i-1)].value)*float(workbook[Xlsx_Letter(x+3) + str(y+i-1)].value)
-    return workbook
+    sezon_data = float(workbook[Xlsx_Letter(x+4) + str(y+i-1)].value)
+    return workbook, sezon_data
 
 
 def KvadKlud(workbook,date,data,x_sak,y_sak,x_beig,y_beig):
     DataDisplay(workbook,date,data,x_beig+3,y_sak)
+    kvad_klud_data = []
     for i in range(1,x_beig-x_sak+1):
         workbook[Xlsx_Letter(x_beig+4+i) + str(y_sak-1)] = "Q" + str(workbook[Xlsx_Letter(x_sak+i-1) + str(y_sak-1)].value)
+    j = 0
     for i in range(1,x_beig-x_sak+1):
-        for j in range(1,y_beig-y_sak+1):
+        for elem in data:
+            j = j + 1
             if workbook[Xlsx_Letter(x_sak+i-1) + str(y_sak+j-1)].value != None:
-                workbook[Xlsx_Letter(x_beig+4+i) + str(y_sak+j-1)] = pow((float(workbook[Xlsx_Letter(x_sak+i-1) + str(y_sak+j-1)].value)-float(workbook[Xlsx_Letter(x_sak-1) + str(y_sak+j-1)].value)),2)
+                workbook[Xlsx_Letter(x_beig+4+i) + str(y_sak+j-1)] = pow((float(workbook[Xlsx_Letter(x_sak+i-1) + str(y_sak+j-1)].value)-float(elem)),2)
+        j = 0
     workbook[Xlsx_Letter(x_beig+3) + str(y_beig+1)] = "AVERENGE"
     sum = 0
     a = 0
     for i in range(1,x_beig-x_sak+1):
-        for j in range(1,y_beig-y_sak+1):
-            if workbook[Xlsx_Letter(x_beig+4+i) + str(y_sak+j-1)].value != None:
-                sum = sum + float(workbook[Xlsx_Letter(x_beig+4+i) + str(y_sak+j-1)].value)
+        for l in range(1,y_beig-y_sak+1):
+            if workbook[Xlsx_Letter(x_beig+4+i) + str(y_sak+l-1)].value != None:
+                sum = sum + float(workbook[Xlsx_Letter(x_beig+4+i) + str(y_sak+l-1)].value)
                 a = a+1
         workbook[Xlsx_Letter(x_beig+4+i) + str(y_beig+1)]= sum/a
+        kvad_klud_data.append(sum/a)
         sum = 0
         a = 0
-    return workbook
+    return workbook, kvad_klud_data
+
+
+def sezon_input(text1,text2,expect1,expect2,expect3):
+    print(text1)
+    inp = input()
+    if inp == expect1 or inp == expect2 or inp == expect3:
+        return inp
+    else:
+        print(text2)
+        inp = sezon_input(text1,text2,expect1,expect2,expect3)
+        return inp
+
+
+def first_sezon_input(text1,text2,expect):
+    print(text1)
+    inp = input()
+    if int(inp)<= int(expect) and int(inp)>0:
+        return inp
+    else:
+        print(text2 + str(expect))
+        inp = first_sezon_input(text1,text2,expect)
+        return inp
