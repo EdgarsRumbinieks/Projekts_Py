@@ -25,7 +25,7 @@ _**Eksponenciālas noguldīšanas metode:** Vērtība = α*iepriekšēja reālā
 10. Aprēķināt eksponenciālas noguldīšanas metodes vidējo kvadrātisko kļūdu un ievietot tabulā.
 11. Saglabāt vidējo kvadrātisko kļūdu katram α masīvā "ekspon_data_klud"
 12. Veikt tendences metodes aprēķinus un ievietot tos tabulā. 
-_**Tendences metode:** Tendences līknes (trendline) izveidošana (polinomiska, logoritmiska, exponinciāla... funkcijas). Izveidot sarakstu ar katras reālas vērtības kārtas numuru un ievietot to iegūtajā funkcija, lai atrastu vērtību. Piemēram data = [0.3,21,52.4,99.6], ieveidojot tndlinājās polinometrisku(2) funkciju, saņemsim y = 6.2*x^2 + 2.1*x - 8, no tās var aprēķināt 5. vērtību: 6.2*5^2 + 2.1*5 - 8 = 157.5_
+_**Tendences metode:** Tendences līknes (trendline) izveidošana (polinomiska, logoritmiska, exponinciāla... funkcijas). Izveidot sarakstu ar katras reālas vērtības kārtas numuru un ievietot to iegūtajā funkcija, lai atrastu vērtību. Piemēram data = [0.3,21,52.4,99.6], ieveidojot tndlinājās polinometrisku(2) funkciju, saņemsim y = 6.2x^2 + 2.1x - 8, no tās var aprēķināt 5. vērtību: 6.2×5^2 + 2.1×5 - 8 = 157.5_
 13. Saglābāt nākoša perioda aprēķinātus datus masīvā "trend_data_klud".
 14. Atrēķināt tendences metodes vidējo kvadrātisko kļūdu un ievietot tabulā.
 15. Saglabāt vidējo kvadrātisko kļūdu katrai funkcijai masīvā "trend_data_klud"
