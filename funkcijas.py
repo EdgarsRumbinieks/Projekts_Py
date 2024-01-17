@@ -210,9 +210,24 @@ def sezon_input(text1,text2,expect1,expect2,expect3):
 def first_sezon_input(text1,text2,expect):
     print(text1)
     inp = input()
+    try:
+        int(inp)
+    except ValueError:
+        inp = -1
     if int(inp)<= int(expect) and int(inp)>0:
         return inp
     else:
         print(text2 + str(expect))
         inp = first_sezon_input(text1,text2,expect)
         return inp
+
+def try_to_name(workbook,text1,text2):
+    print(text1)
+    name = input()
+    try:
+        workbook.save(str(name) + ".xlsx")
+        return None
+    except OSError:
+        print(text2)
+        try_to_name(workbook,text1,text2)
+        return None
