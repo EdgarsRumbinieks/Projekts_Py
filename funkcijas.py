@@ -78,7 +78,7 @@ def VidSlid(workbook,date,data,x,y):
     return workbook, slid_data
 
 
-def TendencesMetode(workbook,date,data,x,y):
+def TendencesMetode(workbook,date,data,poli_max,x,y):
     DataDisplay(workbook,date,data,x-2,y)
     floatdata = []
     x_ass = []
@@ -94,7 +94,7 @@ def TendencesMetode(workbook,date,data,x,y):
     x_ass.append(i+1)
     sum = 0
     trend_data = []
-    for i in range (1,10):
+    for i in range (1,poli_max+1):
         workbook[Xlsx_Letter(x+i) + str(y-1)] = "poly(" + str(i) + ")"
         z = np.polyfit(xAss, yAss, i)
         for elem in x_ass:

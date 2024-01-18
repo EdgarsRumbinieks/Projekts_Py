@@ -45,23 +45,23 @@ if rind_colon == "2":
 
 wb = openpyxl.Workbook()
 ws=wb.active
-
 ws['A1'] = "Slidosas vidējas metode"
 slid_data = VidSlid(ws,date,data,3,3)
 ws[Xlsx_Letter(6+len(data)//2) + "1"] = "Vidēja kvadratiska klūda"
 slid_data_klud = KvadKlud(ws,date,data, 3,3,3+len(data)//2,3+len(data))
-
 
 ws['A' + str(len(data) + 8)] = "Eksponenciālas noguldīsānas metode"
 ekspon_data = EksponNoglud(ws,date,data,3,len(data) + 10)
 ws[Xlsx_Letter(6+9) + str(len(data) + 8)] = "Vidēja kvadratiska klūda"
 ekspon_data_klud = KvadKlud(ws,date,data, 3,len(data) + 10,3+9,len(data) + 10+len(data))
 
+poli_max = first_sezon_input("Līdz kādas pakāpes polinomam veikt tendences metodes rēkināšanu?","Lūdzu ievadiet naturālo skaitli ne lielāko par ",100)
+poli_max = int(poli_max)
 
 ws['A' + str(2*len(data) + 15)] = "Tendences metode"
-trend_data = TendencesMetode(ws,date,data,3,2*len(data) + 17)
-ws[Xlsx_Letter(6+11) + str(2*len(data) + 15)] = "Vidēja kvadratiska klūda"
-trend_data_klud = KvadKlud(ws,date,data, 4,2*len(data) + 17,3+11,2*len(data) + 17+len(data))
+trend_data = TendencesMetode(ws,date,data,poli_max,3,2*len(data) + 17)
+ws[Xlsx_Letter(8+poli_max) + str(2*len(data) + 15)] = "Vidēja kvadratiska klūda"
+trend_data_klud = KvadKlud(ws,date,data, 4,2*len(data) + 17,5+poli_max,2*len(data) + 17+len(data))
 
 
 Sezon_papild = sezon_input("Kāds laika periods ir starp datiem? Ja mēnesis: ievadi '1', ja kvartile: ievadi '2', ja gads: ievadi '3'","Lūgums ievadīt '1', '2' vai '3'","1","2","3")
