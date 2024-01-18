@@ -83,7 +83,7 @@ Funkcija saglabā pēdējā (nākošā) perioda vērtību mainīgajā.
 11. Analizēt rezultāta ticamību (itīpaši, ja metode ar mazāko vidējo kvadrātisko kļūdu ir tendences ar lielas pakāpes polinomu):
 Ja uzskatāt, ka rezultāts nav ticams: ir jāatver saglabāto xslx failu un dziļāk jāanalizē rezultātus.
 ## Programatūras darbības video demonstrācija
-CSV faila dati ir rindā: [links](https://youtu.be/QojjvgCOhhM)
-CSV faila dati ir kolonnā: [links](https://youtu.be/1PphHRiI83s)
+* CSV faila dati ir rindā: [links](https://youtu.be/QojjvgCOhhM)
+* CSV faila dati ir kolonnā: [links](https://youtu.be/1PphHRiI83s)
 
-Programatūras demonstrācija: [links](https://youtu.be/mQZy5TFIO2Q)
+* Programatūras demonstrācija: [links](https://youtu.be/mQZy5TFIO2Q)
